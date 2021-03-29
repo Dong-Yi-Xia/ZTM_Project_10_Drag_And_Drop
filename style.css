@@ -5,6 +5,7 @@ html {
   box-sizing: border-box;
 }
 
+/* CSS Variables */
 :root {
   --column-1: #a2622d;
   --column-2: #1b6161;
@@ -50,7 +51,7 @@ ul {
 
 /* Columns */
 .drag-column {
-
+  flex: 1;  /*create equal width size*/
   margin: 0 10px;
   position: relative;
   background-color: rgba(0, 0, 0, 0.4);
@@ -89,7 +90,7 @@ ul {
 /* Custom Scrollbar */
 .custom-scroll {
   overflow-y: auto;
-  max-height: 75vh;
+  max-height: 52vh;  /*set the max height for the content in the list*/
 }
 
 .custom-scroll::-webkit-scrollbar-track {
@@ -104,9 +105,23 @@ ul {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(0, 0, 0, 0.8);
+  width: 68px;
+  background-image: 
+    linear-gradient(
+      90deg,
+      transparent,
+      magenta,
+      red,
+      yellow,
+      limegreen,
+      turquoise,
+      blue,
+      magenta,
+      transparent
+    );
+  background-position: center bottom, center -40px;
+  background-repeat: no-repeat, no-repeat;
+  background-size: contain, contain;
 }
 
 .header {

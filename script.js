@@ -1,7 +1,10 @@
+
+//These are all arrays when using querySelectorAll
 const addBtns = document.querySelectorAll('.add-btn:not(.solid)');
 const saveItemBtns = document.querySelectorAll('.solid');
 const addItemContainers = document.querySelectorAll('.add-container');
 const addItems = document.querySelectorAll('.add-item');
+
 // Item Lists
 const itemLists = document.querySelectorAll('.drag-item-list');
 const backlogList = document.getElementById('backlog-list');
@@ -17,6 +20,7 @@ let backlogListArray = [];
 let progressListArray = [];
 let completeListArray = [];
 let onHoldListArray = [];
+let listArray = []
 
 // Drag Functionality
 
@@ -36,12 +40,25 @@ function getSavedColumns() {
   }
 }
 
+//Get the saved info getSavedColumns() and Display the info updateSavedColumns()
+getSavedColumns()
+updateSavedColumns()
+
 // Set localStorage Arrays
+// function updateSavedColumns() {
+//   localStorage.setItem('backlogItems', JSON.stringify(backlogListArray));
+//   localStorage.setItem('progressItems', JSON.stringify(progressListArray));
+//   localStorage.setItem('completeItems', JSON.stringify(completeListArray));
+//   localStorage.setItem('onHoldItems', JSON.stringify(onHoldListArray));
+// }
+
+//Refactored
 function updateSavedColumns() {
-  localStorage.setItem('backlogItems', JSON.stringify(backlogListArray));
-  localStorage.setItem('progressItems', JSON.stringify(progressListArray));
-  localStorage.setItem('completeItems', JSON.stringify(completeListArray));
-  localStorage.setItem('onHoldItems', JSON.stringify(onHoldListArray));
+  listArray = [backlogListArray, progressListArray, completeListArray, onHoldListArray]
+  const arrayNames = ['backlog', 'progress', 'compelete', 'onHold']
+  arrayNames.forEach((arrayName, index) => {
+    localStorage.setItem(`${arrayName}Items`, JSON.stringify(listArray[index]))
+  })
 }
 
 // Create DOM Elements for each list item
