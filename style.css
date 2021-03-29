@@ -7,15 +7,15 @@ html {
 
 /* CSS Variables */
 :root {
-  --column-1: #a2622d;
-  --column-2: #1b6161;
-  --column-3: #248224;
-  --column-4: #a22d22;
+  --column-1: #f1ab43;
+  --column-2: #35c7c7;
+  --column-3: #28f128;
+  --column-4: #e63829;
 }
 
 body {
   margin: 0;
-  background: url("./trees.jpg");
+  background: url("./fall.jpg");
   background-size: cover;
   background-position: 50% 60%;
   background-attachment: fixed;
@@ -54,7 +54,7 @@ ul {
   flex: 1;  /*create equal width size*/
   margin: 0 10px;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(182, 236, 227, 0.4);
   border-radius: 10px;
   overflow-x: hidden;
 }
@@ -148,7 +148,7 @@ ul {
   margin: 10px;
   padding: 10px;
   height: fit-content;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(43, 29, 51, 0.8);
   border-radius: 10px;
   line-height: 1.5rem;
   letter-spacing: 1px;
