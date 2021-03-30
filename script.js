@@ -63,6 +63,14 @@ function updateSavedColumns() {
   })
 }
 
+// Filter Arrays to remove empty items
+function filterArray(array){
+  console.log(array)
+  const filterArray = array.filter(item => item !== null)
+  console.log(filterArray)
+}
+
+
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
   // console.log('columnEl:', columnEl);
@@ -75,6 +83,9 @@ function createItemEl(columnEl, column, item, index) {
   listEl.textContent = item
   listEl.draggable = true
   listEl.setAttribute('ondragstart', 'drag(event)')
+  listEl.contentEditable = true
+  listEl.id = index
+  listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`)
   //Append
   columnEl.appendChild(listEl)
 
@@ -92,29 +103,79 @@ function updateDOM() {
   backlogListArray.forEach((backlogItem, index) => {
     createItemEl(backlogList, 0, backlogItem, index)
   })
+  backlogListArray = filterArray(backlogListArray)
 
   // Progress Column
   progressList.textContent = ''
   progressListArray.forEach((progressItem, index) => {
-    createItemEl(progressList, 0, progressItem, index)
+    createItemEl(progressList, 1, progressItem, index)
   })
+  progressListArray = filterArray(progressListArray)
 
   // Complete Column
   completeList.textContent = ''
   completeListArray.forEach((completeItem, index) => {
-    createItemEl(completeList, 0, completeItem, index)
+    createItemEl(completeList, 2, completeItem, index)
   })
+  completeListArray = filterArray(completeListArray)
 
   // On Hold Column
   onHoldList.textContent = ''
   onHoldListArray.forEach((onHoldItem, index) => {
-    createItemEl(onHoldList, 0, onHoldItem, index)
+    createItemEl(onHoldList, 3, onHoldItem, index)
   })
+  onHoldListArray = filterArray(onHoldListArray)
 
   // Run getSavedColumns only once, Update Local Storage
   updatedOnLoad = true
   updateSavedColumns()
 }
+
+
+
+// Update Item - Delete if necessary or update Array value
+function updateItem(id, column){
+  const selectedArray = listArray[column]
+  const selectedColumnEl = listColumns[column].children
+  // console.log(selectedArray)
+  // console.log(selectedColumnEl[id].textContent)
+  if(!selectedColumnEl[id].textContent){
+    delete selectedArray[id]
+  }
+  updateDOM()
+}
+
+
+//Add to Column List, Rest Textbox
+function addToColumn(column){
+  const itemText = addItems[column].textContent
+ 
+    const selectedArray = listArray[column]
+    selectedArray.push(itemText)
+    addItems[column].textContent = ''
+    updateDOM()
+  
+}
+
+
+//Show Add Item Input Box
+function showInputBox(column){
+  addBtns[column].style.visibility = 'hidden'
+  saveItemBtns[column].style.display = 'flex'
+  addItemContainers[column].style.display = 'flex'
+}
+
+// Hide Item Input Box
+function hideInputBox(column){
+  addBtns[column].style.visibility = 'visible'
+  saveItemBtns[column].style.display = 'none'
+  addItemContainers[column].style.display = 'none'
+  addToColumn(column)
+}
+
+
+
+
 
 
 //Allows arrays to reflect Drag and Drop items
@@ -161,13 +222,15 @@ function dragEnter(column){
   currentColumn = column
 }
 
+
 //Dropping Item in Column, ondrop
 function drop(e){
   e.preventDefault()
-  //Remove Background Color/Padding
+  // Remove Background Color/Padding
   listColumns.forEach((column) => {
     column.classList.remove('over')
   })
+
   // Add Item to Column
   const parent = listColumns[currentColumn]
   parent.appendChild(draggedItem)
