@@ -65,9 +65,8 @@ function updateSavedColumns() {
 
 // Filter Arrays to remove empty items
 function filterArray(array){
-  console.log(array)
   const filterArray = array.filter(item => item !== null)
-  console.log(filterArray)
+  return filterArray
 }
 
 
@@ -103,7 +102,7 @@ function updateDOM() {
   backlogListArray.forEach((backlogItem, index) => {
     createItemEl(backlogList, 0, backlogItem, index)
   })
-  backlogListArray = filterArray(backlogListArray)
+ backlogListArray = filterArray(backlogListArray)
 
   // Progress Column
   progressList.textContent = ''
@@ -137,8 +136,6 @@ function updateDOM() {
 function updateItem(id, column){
   const selectedArray = listArray[column]
   const selectedColumnEl = listColumns[column].children
-  // console.log(selectedArray)
-  // console.log(selectedColumnEl[id].textContent)
   if(!selectedColumnEl[id].textContent){
     delete selectedArray[id]
   }
@@ -149,11 +146,10 @@ function updateItem(id, column){
 //Add to Column List, Rest Textbox
 function addToColumn(column){
   const itemText = addItems[column].textContent
- 
-    const selectedArray = listArray[column]
-    selectedArray.push(itemText)
-    addItems[column].textContent = ''
-    updateDOM()
+  const selectedArray = listArray[column]
+  selectedArray.push(itemText)
+  addItems[column].textContent = ''
+  updateDOM()
   
 }
 
