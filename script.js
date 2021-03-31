@@ -12,6 +12,8 @@ const progressList = document.getElementById('progress-list');
 const completeList = document.getElementById('complete-list');
 const onHoldList = document.getElementById('on-hold-list');
 
+
+
 // Items
 let updatedOnLoad = false
 
@@ -24,6 +26,7 @@ let listArray = []
 
 // Drag Functionality
 let draggedItem 
+let dragging = false
 let currentColumn 
 
 
@@ -82,7 +85,7 @@ function createItemEl(columnEl, column, item, index) {
   listEl.textContent = item
   listEl.draggable = true
   listEl.setAttribute('ondragstart', 'drag(event)')
-  listEl.contentEditable = true
+  listEl.contentEditable = true //the node state is in fluctuation since context can be changed
   listEl.id = index
   listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`)
   //Append
@@ -136,10 +139,14 @@ function updateDOM() {
 function updateItem(id, column){
   const selectedArray = listArray[column]
   const selectedColumnEl = listColumns[column].children
-  if(!selectedColumnEl[id].textContent){
-    delete selectedArray[id]
+  if(!dragging){
+    if(!selectedColumnEl[id].textContent){
+      delete selectedArray[id]
+    } else{
+      selectedArray[id] = selectedColumnEl[id].textContent
+    }
+    updateDOM()
   }
-  updateDOM()
 }
 
 
@@ -204,6 +211,7 @@ function rebuildArrays(){
 // When Item starts Dragging, ondragstart 
 function drag(e) {
   draggedItem = e.target
+  dragging = true
   // console.log('draggedItem', draggedItem)
 }
 
@@ -230,6 +238,10 @@ function drop(e){
   // Add Item to Column
   const parent = listColumns[currentColumn]
   parent.appendChild(draggedItem)
+
+  //Dragging Complete
+  dragging = false
+
   rebuildArrays()
 }
 
